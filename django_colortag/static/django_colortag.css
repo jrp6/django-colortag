@@ -1,0 +1,14 @@
+.label.colortag-light {
+	color: #000;
+}
+.label.colortag-dark {
+	color: #fff;
+}
+.label.colortag:not(.colortag-active):not(.active):not(:hover) {
+	color: #000;
+	background-color: #ddd !important;
+}
+.btn.label.colortag:hover {
+	-webkit-filter: drop-shadow(4px 4px 8px black);
+	filter: drop-shadow(4px 4px 8px black);
+}
