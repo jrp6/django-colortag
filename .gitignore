@@ -14,11 +14,12 @@
 *.db
 *.db.*
 
-venv/
-build/
-dist/
-selenium_test/
-test_*
+/django_colortag.egg-info
+/venv/
+/build/
+/dist/
+/selenium_test/
+/test_*
 
 *.mo
 *.lokalize
