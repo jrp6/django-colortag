@@ -1,3 +1,7 @@
+.label.colortag {
+	transition: all 0.2s ease 0s;
+	opacity: 1;
+}
 .label.colortag-light {
 	color: #000;
 }
@@ -9,6 +13,5 @@
 	background-color: #ddd !important;
 }
 .btn.label.colortag:hover {
-	-webkit-filter: drop-shadow(4px 4px 8px black);
-	filter: drop-shadow(4px 4px 8px black);
+	opacity: 0.6;
 }
