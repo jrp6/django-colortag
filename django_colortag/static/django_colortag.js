@@ -9,27 +9,28 @@ function django_colortag_choice() {
 		var input = $(this);
 		var text = input.parent().text().trim();
 		var button = $('<button type="button"><i class="glyphicon"></i> '+text+'</button>');
+
 		button.addClass(input.data('class'));
 		button.css('background-color', input.css('background-color'));
 		bgroup.append('\n');
 		bgroup.append(button);
 
 		if (input.is(":radio")) {
-			button.on('click', function () {
+			button.on('click', function(e) {
 				input.prop('checked', true);
 				input.closest('ul').find('input:radio').each(function() { $(this).triggerHandler('change'); });
+				e.preventDefault();
 			});
 		} else {
-			button.on('click', function () {
+			button.on('click', function(e) {
 				input.prop('checked', !input.is(':checked'));
 				input.triggerHandler('change');
+				e.preventDefault();
 			});
 		}
 
 		input.on('change', function () {
-			var on = input.is(':checked');
-			var icon = 'glyphicon glyphicon-' + (on?'check':'unchecked');
-			if (on) {
+			if (input.is(':checked')) {
 				button.addClass('colortag-active');
 				button.find('.glyphicon').removeClass('glyphicon-unchecked').addClass('glyphicon-check');
 			} else {
