@@ -1,54 +1,42 @@
 from django import template
-#from django.template.loader import get_template
+from django.forms.utils import flatatt
 from django.utils.html import format_html
+
+from ..widgets import get_colortag_attrs, get_colortag_classes
 
 
 register = template.Library()
 
 
-
 def render_as_button(colortag, extra=None):
-    context = {
+    options = {
+        'active': getattr(colortag, 'is_active', False),
         'element': 'span',
-        'tooltip_trigger': 'hover',
-        'tooltip_placement': 'top',
-        'size': 'xs',
-        'class': '',
-        'btn_class': 'btn',
+        # 'tooltip_trigger': 'hover',
+        # 'tooltip_placement': 'top',
+        # 'size': 'xs',
+        'label': True,
+        'button': True,
     }
     if extra:
-        context.update(extra)
-    if context.get('static'):
-        context['active'] = True
-        context['btn_class'] = ''
+        options.update(extra)
 
-    for k in ('pk', 'slug', 'name', 'description', 'color'):
-        context['tag_'+k] = getattr(colortag, k)
-    context['class'] += ' colortag-dark' if colortag.font_white else " colortag-light"
-    if context.get('active'):
-        context['class'] += ' colortag-active'
+    if options.get('static'):
+        options['active'] = True
+        options['button'] = False
 
-    template = '<{element}'
-    if not context.get('no_tooltip'):
-        template += (
-            ' data-toggle="tooltip"'
-            ' data-trigger="{tooltip_trigger}"'
-            ' data-placement="{tooltip_placement}"'
-            ' data-title="{tag_description}"'
-        )
-    template += (
-        ' title="{tag_description}"'
-        ' data-tagpk="{tag_pk}"'
-        ' data-tagslug="{tag_slug}"'
-        ' data-hovercolor="{tag_color}"'
-        ' class="{btn_class} label label-{size} colortag {class}"'
-        ' style="background-color: {tag_color};"'
-        '>'
-        '{tag_name}'
-        '</{element}>'
-    )
+    attrs = get_colortag_attrs(colortag, options)
+    classes = get_colortag_classes(colortag, options)
+    attrs['class'] = ' '.join(classes)
 
-    return format_html(template, **context)
+    for k, v in getattr(colortag, 'data_attrs', {}).items():
+        attrs['data-tag{}'.format(k)] = v
+
+    return format_html('<{element} {attrs}>{name}</{element}>',
+                       element=options['element'],
+                       name=colortag.name,
+                       attrs=flatatt(attrs))
+
 
 @register.filter
 def colortag_button(colortag, options=''):

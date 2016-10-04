@@ -1,17 +1,22 @@
+.btn.colortag,
 .label.colortag {
 	transition: all 0.2s ease 0s;
 	opacity: 1;
+	font-size: 100%;
 }
+.btn.colortag-light,
 .label.colortag-light {
 	color: #000;
 }
+.btn.colortag-dark,
 .label.colortag-dark {
 	color: #fff;
 }
+.btn.colortag:not(.colortag-active):not(.active):not(:hover),
 .label.colortag:not(.colortag-active):not(.active):not(:hover) {
 	color: #000;
 	background-color: #ddd !important;
 }
-.btn.label.colortag:hover {
+.btn.colortag:hover {
 	opacity: 0.6;
 }
