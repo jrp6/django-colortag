@@ -21,8 +21,8 @@ class ColorTagForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean() or self.cleaned_data
 
-        name = cleaned_data['name']
-
+        # create slug from name if there is no slug, but there is name
+        name = cleaned_data.get('name')
         if not cleaned_data.get('slug') and name:
             cleaned_data['slug'] = slugify(name)
 
