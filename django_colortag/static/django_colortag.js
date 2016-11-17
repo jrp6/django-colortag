@@ -11,7 +11,7 @@ function django_colortag_choice() {
 		var button = $('<button type="button"><i class="glyphicon"></i> '+text+'</button>');
 
 		button.addClass(input.data('class'));
-		button.css('background-color', input.css('background-color'));
+		button.css('backgroundColor', input.data('background'));
 		bgroup.append('\n');
 		bgroup.append(button);
 

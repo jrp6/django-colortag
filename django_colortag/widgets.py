@@ -5,7 +5,7 @@ def get_colortag_attrs(colortag, options):
     attrs = {
         'data-tagid': colortag.id,
         'data-tagslug': colortag.slug,
-        'style': 'background-color: {};'.format(colortag.color),
+        'data-background': '{}'.format(colortag.color),
     }
     if not options.get('no_tooltip') and colortag.description:
         attrs.update({
