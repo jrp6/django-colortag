@@ -28,6 +28,7 @@ def render_as_button(colortag, extra=None):
     attrs = get_colortag_attrs(colortag, options)
     classes = get_colortag_classes(colortag, options)
     attrs['class'] = ' '.join(classes)
+    attrs['style'] = 'background-color: {};'.format(colortag.color)
 
     for k, v in getattr(colortag, 'data_attrs', {}).items():
         attrs['data-tag{}'.format(k)] = v
