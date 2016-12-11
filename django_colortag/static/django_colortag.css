@@ -4,6 +4,10 @@
 	opacity: 1;
 	font-size: 100%;
 }
+.btn.colortag {
+	display: inline-block;
+	margin: 0.2em 0; /* spacing between lines */
+}
 .btn.colortag-light,
 .label.colortag-light {
 	color: #000;
