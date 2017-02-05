@@ -48,3 +48,14 @@ def colortag_button(colortag, options=''):
         extra[name] = val
 
     return render_as_button(colortag, extra)
+
+
+@register.filter
+def colortag(colortag, options=''):
+    extra = {'static': True}
+    for option in options.split(','):
+        parts = option.split('=', 1)
+        name, val = parts if len(parts) == 2 else (parts[0], True)
+        extra[name] = val
+
+    return render_as_button(colortag, extra)
