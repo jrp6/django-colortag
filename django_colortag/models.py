@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.functional import cached_property
+from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from colorfield.fields import ColorField
 
@@ -42,3 +43,11 @@ class ColorTag(models.Model):
         return 'ColorTag({!r}, {!r}, {!r})'.format(
             self.name, self.slug, self.description
         )
+
+    def safe(self, *args, **kwargs):
+
+        # Default for slug if there is none
+        if not self.slug and self.name:
+            self.slug = slugify(name)
+
+        return super().safe(*args, **kwargs)
