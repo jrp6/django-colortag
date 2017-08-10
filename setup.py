@@ -19,7 +19,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='django-colortag',
-    version='1.1.5',
+    version='1.2.0',
     description='Django tools for data tagging models',
     long_description=long_description,
     keywords='django models tagging',
@@ -56,5 +56,9 @@ setup(
     install_requires=[
         'Django >=1.9.7, <2',
         'django-html5-colorfield >=1.0, <2',
+        'js-jquery-toggle-django >=1.0.0, <2',
+    ],
+    dependency_links=[
+        'git+https://github.com/Aalto-LeTech/js-jquery-toggle.git@1.0.0#egg=js-jquery-toggle-django-1.0.0&subdirectory=django',
     ],
 )

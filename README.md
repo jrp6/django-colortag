@@ -1,25 +1,46 @@
 Django colortag
 ================
 
-Bare tools to help building data tagging models.
-Used for example in A+ and MOOC-Jutut projects to tag feedbacks or users with colorful tags.
+Tools to help building data tagging models.
+Used for example in A+ and MOOC-Jutut projects to tag feedbacks or users with colored tags.
 Project builds on top of Django and django-html5-colorfield.
 
-Remember to include stylesheet in your template files:
+Installation and usage
+----------------------
 
-```html+django
-{% load static %}
+Requirements:
 
-<!-- TODO: load bootstrap v3 css here too -->
-<!-- stylesheets for django colortags to show correctly -->
-<link rel="stylesheet" href="{% static "django_colortag.css" %}">
+ * [Django](https://www.djangoproject.com/) 1.9+
+ * [django-html5-colorfield](https://github.com/knyghty/django-html5-colorfield) 1.0+
+ * [js-jquery-toggle-django](https://github.com/Aalto-LeTech/js-jquery-toggle) for `jquery_toggle.js`
+ * (recommended) [raphendyr-django-essentials](https://github.com/raphendyr/raphendyr-django-essentials) for app dependency management
 
-<!-- TODO: load jquery here too -->
-<!-- Supporting javascript. Only needed for django_colortag_choice below -->
-<script src="{% static "django_colortag.js" %}">
+Add stuff to `requirements.txt`:
+
+```
+git+https://github.com/Aalto-LeTech/django-colortag.git@1.2.0#egg=django-colortag==1.2.0
 ```
 
-Also for bootstrap tooltips to work, you need this kind of js snipet:
+Install them with `pip install --process-dependency-links -r requirements.txt`
+(`--process-dependency-links` is needed, if you don't have `js-jquery-toggle` in `requirements.txt` as it's not disributed via pypi).
+
+Add relevant stuff to `INSTALLED_APPS`:
+
+ * `js_jquery_toggle`, if you are not using app dependency loading
+ * `django_colortag`
+
+Add something like this to your html header:
+
+```html+django
+<!-- TODO: load bootstrap v3 css -->
+<!-- TODO: load jquery -->
+<!-- jquery toggle is used by colortag js -->
+{% include 'jquery_toggle.head.html' %}
+<!-- defines django_colortag_choice js function -->
+{% include 'django_colortag.head.html' %}
+```
+
+For bootstrap tooltips to work, you need to do something like this:
 
 ```javascript
 $(function() {
@@ -37,7 +58,16 @@ You can render colortag in your templates like this:
 {{ tag|colortag_button }}
 ```
 
-You can use colortags in filters like
+For tags to exists, define model like this:
+
+```python
+from django_colortag.models import ColorTag
+
+class ItemTag(ColorTag):
+    items = models.ManyToManyField(Items, related_name='tags')
+```
+
+You can use colortags in filters like this:
 
 ```python
 import django_filters
@@ -46,5 +76,3 @@ from django_colortag.filters import ColortagChoiceFilter
 class TagFilter(django_filters.FilterSet):
     tags = ColortagChoiceFilter()
 ```
-
-For any of the above to work remember to add `django_colortag` into your django settings `INSTALLED_APPS`.
