@@ -44,10 +44,10 @@ class ColorTag(models.Model):
             self.name, self.slug, self.description
         )
 
-    def safe(self, *args, **kwargs):
+    def save(self, *args, **kwargs):
 
         # Default for slug if there is none
         if not self.slug and self.name:
             self.slug = slugify(name)
 
-        return super().safe(*args, **kwargs)
+        return super().save(*args, **kwargs)
