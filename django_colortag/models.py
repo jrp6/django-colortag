@@ -48,6 +48,6 @@ class ColorTag(models.Model):
 
         # Default for slug if there is none
         if not self.slug and self.name:
-            self.slug = slugify(name)
+            self.slug = slugify(self.name)
 
         return super().save(*args, **kwargs)
