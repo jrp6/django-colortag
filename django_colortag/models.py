@@ -44,6 +44,13 @@ class ColorTag(models.Model):
             self.name, self.slug, self.description
         )
 
+    def __eq__(self, other):
+        """Compare slugs if other is a string. Otherwise delegate to super"""
+        if isinstance(other, str):
+            return self.slug == other
+        else:
+            return super().__eq__(self, other)
+
     def save(self, *args, **kwargs):
 
         # Default for slug if there is none
