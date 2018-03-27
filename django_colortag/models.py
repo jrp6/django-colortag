@@ -3,6 +3,7 @@ from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from colorfield.fields import ColorField
+from functools import total_ordering
 
 from .templatetags.colortag import render_as_button
 from .utils import gray_tone
@@ -10,6 +11,7 @@ from .utils import gray_tone
 MAX_LENGTH = 20
 
 
+@total_ordering
 class ColorTag(models.Model):
     class Meta:
         abstract = True
@@ -49,7 +51,14 @@ class ColorTag(models.Model):
         if isinstance(other, str):
             return self.slug == other
         else:
-            return super().__eq__(self, other)
+            return super().__eq__(other)
+
+    def __gt__(self, other):
+        """Compare ColorTags by slug"""
+        if isinstance(other, ColorTag):
+            return self.slug > other.slug
+        else:
+            return NotImplemented
 
     def save(self, *args, **kwargs):
 
