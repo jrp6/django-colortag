@@ -1,5 +1,6 @@
 .btn.colortag,
-.label.colortag {
+.label.colortag,
+.dropdown.create-tagging {
 	transition: all 0.2s ease 0s;
 	opacity: 1;
 	font-size: 100%;
