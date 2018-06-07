@@ -4,8 +4,6 @@
 	transition: all 0.2s ease 0s;
 	opacity: 1;
 	font-size: 100%;
-}
-.btn.colortag {
 	display: inline-block;
 	margin: 0.2em 0; /* spacing between lines */
 }
