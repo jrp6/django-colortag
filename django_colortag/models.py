@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.crypto import get_random_string
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
@@ -60,10 +61,25 @@ class ColorTag(models.Model):
         else:
             return NotImplemented
 
-    def save(self, *args, **kwargs):
+    def is_valid_slug(self, slug):
+        """
+        Check if the slug is valid. By default any slug is valid; you might want
+        to override e.g. to implement uniqueness checks
+        """
+        return True
 
-        # Default for slug if there is none
-        if not self.slug and self.name:
-            self.slug = slugify(self.name)
+    def save(self, *args, **kwargs):
+        assert self.name
+
+        slug_candidate = self.slug or slugify(self.name)
+        for i in range(1000):
+            if self.is_valid_slug(slug_candidate):
+                break
+            else:
+                slug_candidate += get_random_string(length=1)
+        else:
+            raise RuntimeError('Out of slugs')
+
+        self.slug = slug_candidate
 
         return super().save(*args, **kwargs)
