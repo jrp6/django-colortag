@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.crypto import get_random_string
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
@@ -64,6 +65,6 @@ class ColorTag(models.Model):
 
         # Default for slug if there is none
         if not self.slug and self.name:
-            self.slug = slugify(self.name)
+            self.slug = slugify(self.name) or slugify(get_random_string(length=8))
 
         return super().save(*args, **kwargs)
