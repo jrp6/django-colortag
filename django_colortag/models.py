@@ -61,10 +61,26 @@ class ColorTag(models.Model):
         else:
             return NotImplemented
 
+    def is_valid_slug(self, slug):
+        """
+        Check if the slug is valid. By default any slug is valid; you might want
+        to override e.g. to implement uniqueness checks
+        """
+        return True
+
     def save(self, *args, **kwargs):
+        assert self.name
 
         # Default for slug if there is none
-        if not self.slug and self.name:
-            self.slug = slugify(self.name) or slugify(get_random_string(length=8))
+        slug_candidate = self.slug or slugify(self.name)
+        for i in range(1000):
+            if self.is_valid_slug(slug_candidate):
+                break
+            else:
+                slug_candidate += get_random_string(length=1)
+        else:
+            raise RuntimeError('Out of slugs')
+
+        self.slug = slug_candidate
 
         return super().save(*args, **kwargs)
